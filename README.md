@@ -1,13 +1,25 @@
-# kinovaGen3 Robot Setup
+# Kinova Gen3 Robot Setup
 
-Quick ROS2 setup for Kinova gen 3
+Quick ROS 2 setup guide for the Kinova Gen3 robot.
 
-## Conexión inicial 
- 
-- Make sure youre using ros2 humble or foxy which tiene mejor soporte de hardware para estas versiones de ros. 
-- Encienda el robot y asegurerse que lo puede operar con el joystick de xbox (solo para verificar que el robot funciona). 
-- Establezca una ip manual en la PC, en este caso se usa IPV4 manual con 192.168.1.11 con mascara 255.255.255.1. 
-- Conecte el cable ethernet a la computadora y asegurerse que puede hacer ping a la ip del robot 192.168.1.11. Si hay paquetes, la conexion esta establecida. 
+## 🧩 Initial Connection
+
+- Make sure you're using **ROS 2 Humble** or **Foxy**, since those versions have better hardware support.  
+- Turn on the robot and confirm you can control it using the Xbox joystick (just to check it's working).  
+- Manually assign an IP address to your PC. In this setup, we're using **IPv4** with:  
+  - IP: `192.168.1.11`  
+  - Subnet mask: `255.255.255.0`  
+- Connect the Ethernet cable and make sure you can ping the robot at `192.168.1.10`. If packets are received, the connection is working.
+
+## ⚙️ ROS 2 Setup
+
+1. Make sure you're using the correct ROS 2 version and that you’ve created a workspace (`colcon` and `source` ready).
+
+2. Inside the `src` folder of your workspace, clone the Kinova ROS 2 repository:
+
+   ```bash
+   git clone https://github.com/Kinovarobotics/ros2_kortex.git
+
 
 ## ROS2 setup 
 
