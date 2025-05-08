@@ -2,7 +2,7 @@
 
 Quick ROS 2 setup guide for the Kinova Gen3 robot.
 
-## 🧩 Initial Connection
+##  Initial Connection
 
 - Make sure you're using **ROS 2 Humble** or **Foxy**, since those versions have better hardware support.  
 - Turn on the robot and confirm you can control it using the Xbox joystick (just to check it's working).  
@@ -11,7 +11,7 @@ Quick ROS 2 setup guide for the Kinova Gen3 robot.
   - Subnet mask: `255.255.255.0`  
 - Connect the Ethernet cable and make sure you can ping the robot at `192.168.1.10`. If packets are received, the connection is working.
 
-## ⚙️ ROS 2 Setup
+##  ROS 2 Setup
 
 1. Make sure you're using the correct ROS 2 version and that you’ve created a workspace (`colcon` and `source` ready).
 
