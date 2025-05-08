@@ -34,6 +34,7 @@ Quick ROS 2 setup guide for the Kinova Gen3 robot.
 rosdep install --from-paths src --ignore-src -r -y
 ```
 construya el paquete con colcon build y source 
+
 4. Dependiedno de la version que se haya instalado de los paquetes es el nombre que tienen los launch files y demas, para esta version, se esta utilizando el launch 
 ros2 launch kortex_bringup gen3.launch.py robot_ip:=192.168.1.10 (importante indicar la IP ya mencionada). 
 
