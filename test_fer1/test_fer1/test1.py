@@ -1,3 +1,5 @@
+#This code is the base for moving KINOVA Gen3 robot using only ROS2 publishers. Uses /joint_trajectory_controller/joint_trajectory'
+#topic for controlling every robot joint
 import rclpy
 from rclpy.node import Node
 from trajectory_msgs.msg import JointTrajectory,JointTrajectoryPoint 
