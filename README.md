@@ -49,3 +49,6 @@ Hagalo activo con:
 ros2 control switch_controllers --start twist_controller --stop joint_trajectory_controller --strict --controller-manager /controller_manager 
 ```
 Verifique nuevamente
+
+##  ROS2 rgb and depth camera setup 
+
