@@ -21,14 +21,6 @@ Quick ROS 2 setup guide for the Kinova Gen3 robot.
    git clone https://github.com/Kinovarobotics/ros2_kortex.git
 
 
-## ROS2 setup 
-
-1.  Asegurese de usar la version correcta de ros2, crear un workspace con capacidad de source y construir paquetes. 
-2. En el wks, dentro del src clone el repositorio de kenova robotics: git clone https://github.com/Kinovarobotics/kinova_ros2.git
-```bash
-   git clone https://github.com/Kinovarobotics/ros2_kortex.git
-```
-
 3. fuera de src, agregue las dependencias
 ```bash
 rosdep install --from-paths src --ignore-src -r -y
