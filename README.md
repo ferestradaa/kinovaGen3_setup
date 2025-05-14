@@ -62,7 +62,6 @@ Kinovas repo has probably not been updated for last pkg versions. Some commands 
 Youll need to modificate xacros until downgraded parameters stop interferring with the lunch. 
 Follow the route on your workspace:
 
-1. For running Moveit2, official documentation refers to
 ```bash
   /fes_ros2_ws/src/ros2_kortex/kortex_description/grippers/robotiq_2f_85/urdf/robotiq_2f_85_macro.xacro
 
