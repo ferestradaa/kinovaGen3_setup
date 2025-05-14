@@ -66,4 +66,45 @@ Follow the route on your workspace:
   /fes_ros2_ws/src/ros2_kortex/kortex_description/grippers/robotiq_2f_85/urdf/robotiq_2f_85_macro.xacro
 
 ```
-And delete every xacro:robotiq_gripper that may cause issues. Launch again and verify
+And delete every xacro:robotiq_gripper that may cause issues. Launch again and verify. For the moment, the xacro file should look like this:
+
+
+```xml
+<?xml version="1.0"?>
+<robot name="robotiq_2f_85_model" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="load_gripper" params="
+    parent
+    prefix
+    use_fake_hardware:=false
+    fake_sensor_commands:=false
+    sim_gazebo:=false
+    sim_isaac:=false
+    isaac_joint_commands:=/isaac_joint_commands
+    isaac_joint_states:=/isaac_joint_states
+    use_internal_bus_gripper_comm:=false
+    com_port:=/dev/ttyUSB0
+    moveit_active:=false">
+    <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro" />
+
+    <!-- Hardware talks directly to the gripper so we don't need ros2_control unless we are simulating -->
+    <xacro:property name="include_ros2_control" value="false"/>
+    <xacro:if value="${sim_gazebo or sim_isaac or use_fake_hardware or not use_internal_bus_gripper_comm}">
+      <xacro:property name="include_ros2_control" value="true"/>
+    </xacro:if>
+
+    <xacro:robotiq_gripper
+        name="RobotiqGripperHardwareInterface"
+        prefix="${prefix}"
+        parent="${parent}"
+        include_ros2_control="${include_ros2_control}"
+        com_port="${com_port}"
+        use_fake_hardware="${use_fake_hardware}"
+        fake_sensor_commands="${fake_sensor_commands}"
+  
+   >
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:robotiq_gripper>
+  </xacro:macro>
+</robot>
+
+```
