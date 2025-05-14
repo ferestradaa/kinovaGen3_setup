@@ -52,3 +52,10 @@ Verifique nuevamente
 
 ##  ROS2 rgb and depth camera setup 
 
+
+##  Considerations
+Kinovas repo has probably not been updated for last pkg versions. Some commands might not work instantly after instalation. For this, some manual changes to launch files have been implemented:
+1. For running Moveit2, official documentation refers to
+   ```bash
+ ros2 launch kinova_gen3_7dof_robotiq_2f_85_moveit_config robot.launch.py   robot_ip:=192.168.1.10   use_fake_hardware:=true   fake_sensor_commands:=true
+```
