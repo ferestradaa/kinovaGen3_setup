@@ -56,6 +56,15 @@ Verifique nuevamente
 ##  Considerations
 Kinovas repo has probably not been updated for last pkg versions. Some commands might not work instantly after instalation. For this, some manual changes to launch files have been implemented:
 1. For running Moveit2, official documentation refers to
-   ```bash
+```bash
  ros2 launch kinova_gen3_7dof_robotiq_2f_85_moveit_config robot.launch.py   robot_ip:=192.168.1.10   use_fake_hardware:=true   fake_sensor_commands:=true
 ```
+Youll need to modificate xacros until downgraded parameters stop interferring with the lunch. 
+Follow the route on your workspace:
+
+1. For running Moveit2, official documentation refers to
+```bash
+  /fes_ros2_ws/src/ros2_kortex/kortex_description/grippers/robotiq_2f_85/urdf/robotiq_2f_85_macro.xacro
+
+```
+And delete every xacro:robotiq_gripper that may cause issues. Launch again and verify
