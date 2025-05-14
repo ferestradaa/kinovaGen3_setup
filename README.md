@@ -17,39 +17,41 @@ Quick ROS 2 setup guide for the Kinova Gen3 robot.
 
 2. Inside the `src` folder of your workspace, clone the Kinova ROS 2 repository:
 
-   ```bash
+```bash
    git clone https://github.com/Kinovarobotics/ros2_kortex.git
-
-
-3. fuera de src, agregue las dependencias
-```bash
-rosdep install --from-paths src --ignore-src -r -y
 ```
-construya el paquete con colcon build y source 
 
-4. Dependiedno de la version que se haya instalado de los paquetes es el nombre que tienen los launch files y demas, para esta version, se esta utilizando el launch 
-ros2 launch kortex_bringup gen3.launch.py robot_ip:=192.168.1.10 (importante indicar la IP ya mencionada). 
 
-5. Al correr este launch file el robot estara ahora controlado por ROS2, por lo que no sera posible moverlo manualmente o con el joystick.
-   
-6. Para asegurarse que esta funcionando el launch, vea la lista de topicos, debe haber una lista grande, incluyendo twist_controller/commands, donde se publicara manualmente para depurar.
-    
-7. Publicando en tal topico, el efector final se movera de acuerdo a los parametros que usted indique, recuerde mantener velocidades bajas para evitar cualquier tipo de movimiento inesperado. En caso de ser necesario, presione el boton rojo de emergencia (que apaga completamente el robot) o en su caso, mantenga presionado hasta que se apague el boton de encendido del robot.
-   
-8. Para probar, publique en el topico desde la terminal:
-```bash
-ros2 topic pub /twist_controller/commands geometry_msgs/Twist "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.02}}"
-```
-9. En caso de presentar algun error, como que el robot no se mueva, es probable que los motores esten bloqueados por seguridad. Verifique que twist_controller este activo usando:
-```bash
-ros2 control list_controllers
-```
-Hagalo activo con:
-```bash
-ros2 control switch_controllers --start twist_controller --stop joint_trajectory_controller --strict --controller-manager /controller_manager 
-```
-Verifique nuevamente
+  Outside the src folder, install the dependencies:
 
+    rosdep install --from-paths src --ignore-src -r -y
+
+Then build the package with colcon build and source it.
+
+    Depending on the version of the packages installed, the launch file names may vary. For this version, use the launch file:
+
+    ros2 launch kortex_bringup gen3.launch.py robot_ip:=192.168.1.10
+
+(It’s important to specify the mentioned IP address.)
+
+  Once this launch file is running, the robot will be controlled by ROS2, and manual or joystick control will no longer be possible.
+
+  To ensure the launch is working, list the topics. There should be a long list, including twist_controller/commands, where commands will be manually published for debugging.
+
+   By publishing to that topic, the end-effector will move according to the parameters you specify. Make sure to use low speeds to avoid any unexpected movements. If needed, press the red emergency button (which completely shuts down the robot), or hold the power button until it turns off.
+
+  To test, publish to the topic from the terminal:
+
+    ros2 topic pub /twist_controller/commands geometry_msgs/Twist "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.02}}"
+
+  If an error occurs, such as the robot not moving, it’s likely that the motors are locked for safety. Check if the twist_controller is active using:
+
+    ros2 control list_controllers
+
+  Activate it with:
+  ```bash
+  ros2 control switch_controllers --start twist_controller --stop joint_trajectory_controller --strict --controller-manager /controller_manager
+```
 ##  ROS2 rgb and depth camera setup 
 
 
