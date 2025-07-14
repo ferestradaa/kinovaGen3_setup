@@ -1,0 +1,92 @@
+# The robot description defines the generalized coordinates and how to map those
+# to the underlying URDF dofs.
+end_effector_frame: bracelet_link
+
+api_version: 1.0
+
+# Defines the generalized coordinates. Each generalized coordinate is assumed
+# to have an entry in the URDF.
+# Lula will only use these joints to control the robot position.
+cspace:
+    - joint_1
+    - joint_2
+    - joint_3
+    - joint_4
+    - joint_5
+    - joint_6
+    - joint_7
+default_q: [
+    -1e-04,0.5243,-0.0003,1.5711,-1e-04,0.7854,-0.0
+]
+
+acceleration_limits: [
+   10,10,10,10,10,10,10
+]
+
+jerk_limits: [
+   50,50,50,50,50,50,50
+]
+
+# Most dimensions of the cspace have a direct corresponding element
+# in the URDF. This list of rules defines how unspecified coordinates
+# should be extracted or how values in the URDF should be overwritten.
+
+cspace_to_urdf_rules:
+
+# Lula uses collision spheres to define the robot geometry in order to avoid
+# collisions with external obstacles.  If no spheres are specified, Lula will
+# not be able to avoid obstacles.
+
+collision_spheres:
+  - base_link/visuals:
+    - "center": [0.0, -0.0, 0.077]
+      "radius": 0.0551
+    - "center": [-0.0, -0.0, 0.108]
+      "radius": 0.0551
+    - "center": [0.005, 0.001, 0.035]
+      "radius": 0.04512
+  - shoulder_link/visuals:
+    - "center": [-0.005, -0.003, -0.018]
+      "radius": 0.05445
+    - "center": [-0.002, -0.013, -0.139]
+      "radius": 0.05445
+    - "center": [0.001, -0.013, -0.106]
+      "radius": 0.05445
+  - half_arm_1_link/visuals:
+    - "center": [-0.003, -0.036, -0.017]
+      "radius": 0.05445
+    - "center": [0.001, -0.185, -0.0]
+      "radius": 0.05445
+    - "center": [-0.006, 0.024, -0.017]
+      "radius": 0.05445
+    - "center": [-0.0, -0.121, -0.023]
+      "radius": 0.05445
+  - half_arm_2_link/visuals:
+    - "center": [0.003, 0.006, -0.205]
+      "radius": 0.05489
+    - "center": [-0.009, -0.003, -0.137]
+      "radius": 0.05489
+    - "center": [0.0, -0.005, -0.005]
+      "radius": 0.05489
+    - "center": [-0.004, -0.006, -0.07]
+      "radius": 0.05489
+  - forearm_link/visuals:
+    - "center": [0.003, -0.122, -0.022]
+      "radius": 0.05586
+    - "center": [0.002, -0.025, -0.018]
+      "radius": 0.05472
+    - "center": [-0.007, 0.005, -0.0]
+      "radius": 0.05472
+    - "center": [0.012, -0.19, 0.001]
+      "radius": 0.05586
+  - spherical_wrist_1_link/visuals:
+    - "center": [-0.003, 0.006, -0.019]
+      "radius": 0.05547
+    - "center": [0.011, -0.004, -0.115]
+      "radius": 0.05547
+  - spherical_wrist_2_link/visuals:
+    - "center": [-0.007, -0.11, -0.0]
+      "radius": 0.05571
+  - bracelet_link/visuals:
+    - "center": [-0.007, 0.007, -0.016]
+      "radius": 0.05542
