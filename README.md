@@ -71,7 +71,7 @@ option is actuallty considered. For doing this, find kortex_control.launch.py an
         ],
     )
 ```
-
+Despite of adding the joint state publisher in isaac sims action graph, dont forget to add an Isaac Read Simulation Time Node, wich ads a timestamp for the publsiher and rviz would be fine.
 ### Move it 
 Kinovas repo has probably not been updated for last pkg versions. Some commands might not work instantly after instalation. For this, some manual changes to launch files have been implemented:
 1. For running Moveit2, official documentation refers to
