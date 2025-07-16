@@ -185,17 +185,16 @@
     </collision>
   </link>
   
+  <link name="gripper_link"/>
   
-  
+
   <joint name="joint_1" type="revolute">
     <origin rpy="3.1416 2.7629E-18 -4.9305E-36" xyz="0 0 0.15643"/>
     <parent link="base_link"/>
     <child link="shoulder_link"/>
     <axis xyz="0 0 1"/>
-    <limit effort="39" lower="-2.41" upper="2.41" velocity="1.3963"/>
+    <limit effort="39" lower="-6.28" upper="6.28" velocity="1.3963"/>
   </joint>
-  
-
   
   
     <joint name="joint_2" type="revolute">
@@ -247,9 +246,12 @@
     <limit effort="9" lower="-2.41" upper="2.41" velocity="1.2218"/>
   </joint>
   
+<joint name="joint__gripper" type="fixed">
+  <origin xyz="0 0 -0.16" rpy="0 0 0"/>  <!-- Usa tu offset real -->
+  <parent link="bracelet_link"/>
+  <child link="gripper_link"/>
+</joint>
   
- 
-  
-  
+
 </robot>
 

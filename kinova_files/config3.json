@@ -1,0 +1,9 @@
+{
+  "end_effector_frame_name": "gripper_link",
+  "maximum_substep_size": 0.00334,
+  "ignore_robot_state_updates": false,
+  "robot_description_path": "/home/aist/Desktop/FES/kinova_files/gen3_robot_description.yaml",
+  "urdf_path": "/home/aist/Desktop/FES/kinova_files/gen3_version2.urdf",
+  "rmpflow_config_path": "/home/aist/Desktop/FES/kinova_files/gen3_rmpflow_config.yaml"
+}
+

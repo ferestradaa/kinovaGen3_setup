@@ -1,6 +1,6 @@
 # The robot description defines the generalized coordinates and how to map those
 # to the underlying URDF dofs.
-end_effector_frame: bracelet_link
+end_effector_frame: gripper_link
 
 api_version: 1.0
 
@@ -15,6 +15,8 @@ cspace:
     - joint_5
     - joint_6
     - joint_7
+    
+    
 default_q: [
     -1e-04,0.5243,-0.0003,1.5711,-1e-04,0.7854,-0.0
 ]

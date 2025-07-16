@@ -1,6 +1,7 @@
 api_version: 1.0
 
 
+end_effector_frame_name: gripper_link
 joint_limit_buffers: [0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
 
 rmp_params:
