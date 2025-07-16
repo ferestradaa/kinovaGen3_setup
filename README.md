@@ -56,6 +56,7 @@ Then build the package with colcon build and source it.
 
 
 ##  Considerations
+### Isaac sim - Rviz Bridge
 For this robot, the package includes a default pubisher for joint position. But we will use joint_states topic to publish joint position from isaac sim. In roder to avoid 2 publishers at the same time (which its not actually possible) well need to delete the launcher publisher manually meanwhile another 
 option is actuallty considered. For doing this, find kortex_control.launch.py and look for joint_state_broadcaster_spawner. Inactive the node in order to stop publishing on the topic. So those lines shoudl look like this:
 ```python
@@ -71,7 +72,7 @@ option is actuallty considered. For doing this, find kortex_control.launch.py an
     )
 ```
 
-
+### Move it 
 Kinovas repo has probably not been updated for last pkg versions. Some commands might not work instantly after instalation. For this, some manual changes to launch files have been implemented:
 1. For running Moveit2, official documentation refers to
 ```bash
