@@ -189,7 +189,7 @@
   
 
   <joint name="joint_1" type="revolute">
-    <origin rpy="3.1416 2.7629E-18 -4.9305E-36" xyz="0 0 0.15643"/>
+    <origin rpy="3.1416 2.7629E-18 -4.9305E-36" xyz="0 0 0.015643"/>
     <parent link="base_link"/>
     <child link="shoulder_link"/>
     <axis xyz="0 0 1"/>
@@ -210,7 +210,7 @@
     <parent link="half_arm_1_link"/>
     <child link="half_arm_2_link"/>
     <axis xyz="0 0 1"/>
-    <limit effort="39" lower="-2.41" upper="2.41" velocity="1.3963"/>
+    <limit effort="39" lower="-6.28" upper="6.28" velocity="1.3963"/>
   </joint>
   
   <joint name="joint_4" type="revolute">
@@ -226,7 +226,7 @@
     <parent link="forearm_link"/>
     <child link="spherical_wrist_1_link"/>
     <axis xyz="0 0 1"/>
-    <limit effort="9" lower="-2.41" upper="2.41" velocity="1.2218"/>
+    <limit effort="39" lower="-6.28" upper="6.28" velocity="1.3963"/>
   </joint>
   
   
@@ -243,13 +243,14 @@
     <parent link="spherical_wrist_2_link"/>
     <child link="bracelet_link"/>
     <axis xyz="0 0 1"/>
-    <limit effort="9" lower="-2.41" upper="2.41" velocity="1.2218"/>
+    <limit effort="39" lower="-6.28" upper="6.28" velocity="1.3963"/>
   </joint>
   
-<joint name="joint__gripper" type="fixed">
-  <origin xyz="0 0 -0.16" rpy="0 0 0"/>  <!-- Usa tu offset real -->
-  <parent link="bracelet_link"/>
-  <child link="gripper_link"/>
+  <joint name="joint_gripper" type="fixed">
+   <origin xyz="0 0 -0.10" rpy="0 0 0"/>  <!-- offset to point between gripper fingers-->
+   <parent link="bracelet_link"/>
+   <child link="gripper_link"/>
+  
 </joint>
   
 
