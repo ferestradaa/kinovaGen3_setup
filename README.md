@@ -72,6 +72,14 @@ option is actuallty considered. For doing this, find kortex_control.launch.py an
     )
 ```
 Despite of adding the joint state publisher in isaac sims action graph, dont forget to add an Isaac Read Simulation Time Node, wich ads a timestamp for the publsiher and rviz would be fine.
+
+### Join gripper and robot body in USD
+1. Create Articulation root parent prim
+2. Add flattened body and gripper usd. NO articulation root for both.
+3. Join the last rigid body of the robots body and the first rigid body of the gripper using fixed joint
+4. Manually set fixed joint pose to match relative gripper position to the robot so they look joined.
+5. Export as flattened and remove instancebale if necessary.
+    
 ### Move it 
 Kinovas repo has probably not been updated for last pkg versions. Some commands might not work instantly after instalation. For this, some manual changes to launch files have been implemented:
 1. For running Moveit2, official documentation refers to
