@@ -135,3 +135,8 @@ And delete every xacro:robotiq_gripper that may cause issues. Launch again and v
 </robot>
 
 ```
+
+##  Object detection 
+6D pose is needed even on the starting purpose of the proeyct. Se usara el framwork de DOPE para obtener posicion y orientacion de objetos en tiempo real. Ademas, es posible aceelerar el proceso de inferencia con CUDA. 
+1. CONDA: Preparacion de entorno aislado con pytorch, torchvision, python-cuda 11.8. Esto ayudara a mantener un sistema mas limpio y evitar cualquier error de mezcla de dependencias.
+2. DATASET: Aprovechando la funcionalidad de isaac sim y el modelo usd del robot, se generara un data set completamente sintetico. Se monta una camara virtual sobre el robot y se aplican parametros intrinsecos similares. De esta forma, las imagenes seran lo mas parecidas a la readlidad. Se ha importado desde isaac assets un ambiente realista para dar variedad a las imagenes. 
