@@ -173,5 +173,5 @@ Se han hecho ediciones para utilziar modelo usd de archivo local, cambiar el wri
 
 La ventaja de usar DOPE es que tiene soporte oficial para ros2 y aceleracion por GPU en tiempo real. Puede hacerse con TensorFlow puro pero se pierde modularidad para:
 1. Hacer el modelo compacto, real time y directamente compatible con ros2.2
-2. Propenso a cambios que deben hacerse completamente manuales. 
+2. Propenso a cambios que deben hacerse de forma completamente manual. 
 
