@@ -179,3 +179,10 @@ Se recomienda trabajar con Isaac ROS desde docker para facilitar el proceso. Com
 
 https://nvidia-isaac-ros.github.io/concepts/docker_devenv/index.html#development-environment
 
+3. Clone el repo de isaac ros common, vaya a la carpeta scripts y ejecute
+```bash
+
+./run_dev.sh 
+```
+Comenzaara la instalacion del contenedor con todas las dependencias necesarias. Incluye ros2 humble y el entorno completo de isaac ros. Al terminar, vuelva a abrir el contenedor para comenzar a generar codigo
+
