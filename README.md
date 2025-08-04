@@ -138,5 +138,38 @@ And delete every xacro:robotiq_gripper that may cause issues. Launch again and v
 
 ##  Object detection 
 6D pose is needed even on the starting purpose of the proeyct. Se usara el framwork de DOPE para obtener posicion y orientacion de objetos en tiempo real. Ademas, es posible aceelerar el proceso de inferencia con CUDA. 
-1. CONDA: Preparacion de entorno aislado con pytorch, torchvision, python-cuda 11.8. Esto ayudara a mantener un sistema mas limpio y evitar cualquier error de mezcla de dependencias.
-2. DATASET: Aprovechando la funcionalidad de isaac sim y el modelo usd del robot, se generara un data set completamente sintetico. Se monta una camara virtual sobre el robot y se aplican parametros intrinsecos similares. De esta forma, las imagenes seran lo mas parecidas a la readlidad. Se ha importado desde isaac assets un ambiente realista para dar variedad a las imagenes. 
+1. Se obtiene un data set adaptando el workflow de nvidia para obtener anotaciones de rgb para modelo DOPE. https://github.com/NVIDIA-AI-IOT/synthetic_data_generation_training_workflow
+Se han hecho ediciones para utilziar modelo usd de archivo local, cambiar el writer de replicatror (isaac sim extension) (KittiWriter originalmente) a DOPEwriter que da como output imagen rgb y json con pose 6d del modelo en camara. El cambio se resumen en:
+```python
+
+    output_directory = args.data_dir
+    class_name_to_index_map = {"palletjack": 1}
+    bucket = ""
+    endpoint = ""
+    writer_config = {"output_folder":output_directory,"use_s3": False, "bucket_name": bucket,"endpoint_url": endpoint}
+    config_data = {
+    "CLASS_NAME_TO_INDEX": {
+        "palletjack": 1
+    },
+
+    "WIDTH": 1280,
+    "HEIGHT": 720,
+    "CAMERA_ROTATION": [-180, 0, 0], 
+    "CAMERA_INTRINSICS" : {
+        "fx": 1297.672904,
+        "fy": 1298.631344,
+        "cx": 620.914026,
+        "cy": 238.280325
+        }
+    }
+    
+    writer_helper = DOPEWriter
+    writer_helper.register_pose_annotator(config_data=config_data)
+    writer = writer_helper.setup_writer(config_data=config_data, writer_config=writer_config)
+    writer.attach(render_product)
+    run_orchestrator()
+    simulation_app.update()
+
+
+```
+
