@@ -186,3 +186,9 @@ https://nvidia-isaac-ros.github.io/concepts/docker_devenv/index.html#development
 ```
 Comenzaara la instalacion del contenedor con todas las dependencias necesarias. Incluye ros2 humble y el entorno completo de isaac ros. Al terminar, vuelva a abrir el contenedor para comenzar a generar codigo
 
+Create the alias on bashrc
+```bash
+alias isaac_ros="/home/isaac_ros-dev/isaac_ros_common/scripts/run_dev.sh"
+
+```
+
