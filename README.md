@@ -194,3 +194,6 @@ alias isaac_ros="/home/isaac_ros-dev/isaac_ros_common/scripts/run_dev.sh"
 https://nvidia-isaac-ros.github.io/repositories_and_packages/isaac_ros_pose_estimation/isaac_ros_dope/index.html
 
 https://nvidia-isaac-ros.github.io/concepts/pose_estimation/dope/tutorial_custom_model.html
+
+Details for dataset
+https://github.com/NVlabs/Deep_Object_Pose/tree/master/data_generation
