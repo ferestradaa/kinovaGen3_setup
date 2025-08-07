@@ -197,3 +197,7 @@ https://nvidia-isaac-ros.github.io/concepts/pose_estimation/dope/tutorial_custom
 
 Details for dataset
 https://github.com/NVlabs/Deep_Object_Pose/tree/master/data_generation
+
+Training 
+
+https://github.com/NVlabs/Deep_Object_Pose/tree/master/train
