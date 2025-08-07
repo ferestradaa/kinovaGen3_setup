@@ -205,3 +205,24 @@ https://github.com/NVlabs/Deep_Object_Pose/tree/master/train
 Custom model 
 
 https://nvidia-isaac-ros.github.io/concepts/pose_estimation/dope/tutorial_custom_model.html
+
+
+If having problems on inference.py, try this in bashrc and then run again with new pth
+
+```bash
+python - <<'EOF'
+import torch, pathlib
+src = pathlib.Path("/home/aist/Desktop/FES/conda/dope_ws/dope_training/net_epoch_0060.pth")
+dst = src.with_name(src.stem + "_nomodule.pth")
+
+sd = torch.load(src, map_location="cpu")
+
+clean = {}
+for k, v in sd.items():
+    clean[k[7:] if k.startswith("module.") else k] = v
+
+torch.save(clean, dst)
+print("clean file ->", dst)
+EOF
+
+```
