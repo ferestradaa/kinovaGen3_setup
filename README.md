@@ -201,3 +201,7 @@ https://github.com/NVlabs/Deep_Object_Pose/tree/master/data_generation
 Training 
 
 https://github.com/NVlabs/Deep_Object_Pose/tree/master/train
+
+Custom model 
+
+https://nvidia-isaac-ros.github.io/concepts/pose_estimation/dope/tutorial_custom_model.html
