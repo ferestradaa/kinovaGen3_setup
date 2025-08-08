@@ -206,8 +206,11 @@ Custom model
 
 https://nvidia-isaac-ros.github.io/concepts/pose_estimation/dope/tutorial_custom_model.html
 
-
-If having problems on inference.py, try this in bashrc and then run again with new pth
+1. Train using conda environment inside dope_training dir
+```bash
+torchrun --nproc_per_node=2 train.py --data /home/aist/Desktop/FES/conda/dope_ws/sdg_dope/cube_sdg/data_generated/yellow_sdg --object yellow --epochs 10
+```
+3. If having problems on inference.py, try this in bashrc and then run again with new pth
 
 ```bash
 python - <<'EOF'
@@ -225,4 +228,8 @@ torch.save(clean, dst)
 print("clean file ->", dst)
 EOF
 
+```
+3. Use inferences
+```bash
+ python inference.py   --weights /home/aist/Desktop/FES/conda/dope_ws/dope_training/clean.pth   --data    /home/aist/Desktop/FES/conda/dope_ws/dope_training/yellow_sdg_test   --object  yellow
 ```
