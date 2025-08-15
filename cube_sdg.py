@@ -1,4 +1,3 @@
-
 from omni.isaac.kit import SimulationApp
 import os
 import argparse
@@ -10,7 +9,7 @@ parser.add_argument("--width", type=int, default=960, help="Width of image")
 parser.add_argument("--num_frames", type=int, default=1000, help="Number of frames to record")
 parser.add_argument("--distractors", type=str, default="warehouse", 
                     help="Options are 'warehouse' (default), 'additional' or None")
-parser.add_argument("--data_dir", type=str, default=os.getcwd() + "/_palletjack_data", 
+parser.add_argument("--data_dir", type=str, default=os.getcwd() + "/_yellow_data", 
                     help="Location where data will be output")
 
 args, unknown_args = parser.parse_known_args()
@@ -35,23 +34,17 @@ import omni.replicator.core as rep
 
 from omni.isaac.core.utils.semantics import get_semantics
 from omni.replicator.isaac.scripts.writers import DOPEWriter
+import numpy as np
+
 
 
 # Increase subframes if shadows/ghosting appears of moving objects
 # See known issues: https://docs.omniverse.nvidia.com/prod_extensions/prod_extensions/ext_replicator.html#known-issues
 rep.settings.carb_settings("/omni/replicator/RTSubframes", 4)
 
-#class_name_to_index_map =  {""}
 
 
-# This is the location of the palletjacks in the simready asset library
-'''
-PALLETJACKS = ["http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Equipment/Pallet_Trucks/Scale_A/PalletTruckScale_A01_PR_NVD_01.usd",
-            "http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Equipment/Pallet_Trucks/Heavy_Duty_A/HeavyDutyPalletTruck_A01_PR_NVD_01.usd",
-            "http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Equipment/Pallet_Trucks/Low_Profile_A/LowProfilePalletTruck_A01_PR_NVD_01.usd"]
-'''
-
-PALLETJACKS = ['file:///home/aist/Desktop/FES/conda/dope_ws/CAD_models/yellow_scaled.usd']
+YELLOW_CUBE = ['file:///home/aisthri/FES/conda/dope_ws/CAD_models/yellow_scaled.usd']
 
 # The warehouse distractors which will be added to the scene and randomized
 DISTRACTORS_WAREHOUSE = 2 * ["/Isaac/Environments/Simple_Warehouse/Props/S_TrafficCone.usd",
@@ -221,10 +214,10 @@ def full_textures_list():
     return full_tex_list
 
 
-def add_palletjacks():
-    rep_obj_list = [rep.create.from_usd(palletjack_path, semantics=[("class", "palletjack")], count=1) for palletjack_path in PALLETJACKS]
-    rep_palletjack_group = rep.create.group(rep_obj_list)
-    return rep_palletjack_group
+def add_cube():
+    rep_obj_list = [rep.create.from_usd(yellow_path, semantics=[("class", "yellow")], count=1) for yellow_path in YELLOW_CUBE]
+    rep_yellow_group = rep.create.group(rep_obj_list)
+    return rep_yellow_group
 
 
 def add_distractors(distractor_type="warehouse"):
@@ -265,44 +258,33 @@ def main():
 
 
     textures = full_textures_list()
-    rep_palletjack_group = add_palletjacks()
+    rep_yellow_group = add_cube()
     rep_distractor_group = add_distractors(distractor_type=args.distractors)
 
     # We only need labels for the palletjack objects
-    update_semantics(stage=stage, keep_semantics=["palletjack"])
+    update_semantics(stage=stage, keep_semantics=["yellow"])
 
     # Create camera with Replicator API for gathering data
     cam = rep.create.camera(clipping_range=(0.1, 1000000))
     RESOLUTION = (CONFIG["width"], CONFIG["height"])
     render_product  = rep.create.render_product(cam, RESOLUTION)
 
-    table = rep.create.from_usd('file:///home/aist/Desktop/FES/conda/dope_ws/CAD_models/table.usd', count=1)
+    #table = rep.create.from_usd('file:///home/aist/Desktop/FES/conda/dope_ws/CAD_models/table.usd', count=1)
 
 
- 
-    # trigger replicator pipeline
     with rep.trigger.on_frame(num_frames=CONFIG["num_frames"]):
-        #with table:
-         #   rep.modify.pose(position=(-0.5, 0, 0.75), rotation=(90, 0, 180), scale=(0.01, 0.01, 0.01))
-
-        # Move the camera around in the scene, focus on the center of warehouse
+        with rep_yellow_group:
+            rep.modify.pose(
+                position=rep.distribution.uniform((-0.1, -0.13, 0.5), (0.1, 0.13, 1.3)),
+                rotation=rep.distribution.uniform((0, 0, 0), (360, 360, 360)),
+                scale=(0.01, 0.01, 0.01))
+            
         with cam:
-            rep.modify.pose(position=rep.distribution.uniform((-1.3, -0.5, 0.8), (-0.5, 0.5, 1.9)),
-                            #rotation=rep.distribution.uniform((0, 0, 0), (0, 0, 180)))
-            #rep.modify.pose(position=rep.distribution.uniform((-1.2, -1.0, 8.4), (1, 1.8, 11)),
-                            look_at=(-0.9, 0, 0.80))
-
-        # Get the Palletjack body mesh and modify its color
-        with rep.get.prims(path_pattern="SteerAxles"):
-            rep.randomizer.color(colors=rep.distribution.uniform((0, 0, 0), (1, 1, 1)))
-
-
-        # Randomize the pose of all the added palletjacks
-        with rep_palletjack_group:
+            rep.modify.pose(
+                position=rep.distribution.uniform((0, 0, 1.5), (0, 0, 1.5)),
+                rotation=(0, -90, 90))
+                #look_at= (0, 0, 1.0)) # Este es el prim generado automáticamente
         
-            rep.modify.pose(position=rep.distribution.uniform((-1.3, -0.3, 0.77), (-0.4, 0.3, 0.8)),
-                            rotation=rep.distribution.uniform((0, 0, 0), (360, 360, 360)),
-                            scale=(0.01, 0.01, 0.01))
 
 
         # Modify the pose of all the distractors in the scene
@@ -341,57 +323,13 @@ def main():
             rep.randomizer.materials(random_mat_wall)
 
 
-    #Default writer using KittiWriter
-    '''
-    # Set up the writer
-    writer = rep.WriterRegistry.get("KittiWriter")
-
-    # output directory of writer
     output_directory = args.data_dir
-    print("Outputting data to ", output_directory)
-
-    # use writer for bounding boxes, rgb and segmentation
-    writer.initialize(output_dir=output_directory,
-                    omit_semantic_type=True,)
-
-
-    # attach camera render products to wrieter so that data is outputted
-    RESOLUTION = (CONFIG["width"], CONFIG["height"])
-    render_product  = rep.create.render_product(cam, RESOLUTION)
-    writer.attach(render_product)
-
-    # run rep pipeline
-    run_orchestrator()
-    #while simulation_app.is_running():
-    simulation_app.update()
-    '''
-
-
-    #using Posewriter for model and 6d pose estimation
-    '''
-    writer = rep.WriterRegistry.get("PoseWriter")
-    output_directory = args.data_dir
-
-    print("Outputting data to ", output_directory)
-
-    writer.initialize(output_dir = output_directory)
-
-    RESOLUTION = (CONFIG["width"], CONFIG["height"])
-    render_product  = rep.create.render_product(cam, RESOLUTION)
-
-    writer.attach(render_product)
-    run_orchestrator()
-    simulation_app.update()
-    '''
-
-    output_directory = args.data_dir
-    class_name_to_index_map = {"palletjack": 1}
     bucket = ""
     endpoint = ""
     writer_config = {"output_folder":output_directory,"use_s3": False, "bucket_name": bucket,"endpoint_url": endpoint}
     config_data = {
     "CLASS_NAME_TO_INDEX": {
-        "palletjack": 1
+        "yellow": 1
     },
 
     "WIDTH": 1280,
@@ -410,9 +348,9 @@ def main():
     writer = writer_helper.setup_writer(config_data=config_data, writer_config=writer_config)
     writer.attach(render_product)
     run_orchestrator()
+
+    #while simulation_app.is_running():
     simulation_app.update()
-
-
 
 
 if __name__ == "__main__":
