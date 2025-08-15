@@ -5,6 +5,25 @@ Example usage:
 
  python -m torch.distributed.launch --nproc_per_node=1 train.py --data ../sample_data/ --object cracker
 """
+import os, multiprocessing as mp
+
+# Limitar hilos de BLAS/MKL para evitar saturación y bloqueos
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+
+# Evitar errores SIGILL en decodificación JPEG con libjpeg-turbo
+os.environ["JSIMD_FORCENONE"] = "1"
+
+# Usar 'spawn' para iniciar workers de DataLoader de forma segura
+try:
+    mp.set_start_method("spawn", force=True)
+except RuntimeError:
+    pass
+
+
+from torch.utils.data.distributed import DistributedSampler
+import torch
+torch.set_num_threads(1)
 
 
 import argparse
@@ -236,6 +255,7 @@ def main(opt):
         buckets=opt.train_buckets,
         endpoint_url=opt.endpoint,
     )
+    '''
     training_data = torch.utils.data.DataLoader(
         training_dataset,
         batch_size=opt.batchsize,
@@ -243,6 +263,27 @@ def main(opt):
         num_workers=opt.workers,
         pin_memory=True,
     )
+    '''
+
+
+    sampler = DistributedSampler(training_dataset, num_replicas=1, rank=0, shuffle=True)
+    training_data = torch.utils.data.DataLoader(
+        training_dataset,
+        batch_size=opt.batchsize,
+        sampler=sampler,           # <- usa sampler
+        shuffle=False,             # <- no mezcles dos veces
+        num_workers=2,
+        pin_memory=True,
+        persistent_workers=True,   # <- evita cuelgue entre épocas
+        multiprocessing_context="spawn",
+        prefetch_factor=2,
+        timeout=60,
+    )
+
+
+
+
+
 
     if not training_data is None:
         print("training data: {} batches".format(len(training_data)))
@@ -281,6 +322,7 @@ def main(opt):
 
     net.train()
     for epoch in range(start_epoch, opt.epochs + 1):
+        sampler.set_epoch(epoch)
         _runnetwork(net, optimizer, local_rank, epoch, training_data, writer)
 
         try:
@@ -363,13 +405,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "--workers",
         type=int,
-        default=8,
+        default=0,
         help="number of data loading workers"
     )
     parser.add_argument(
         "--batchsize", "--batch_size",
         type=int,
-        default=8,
+        default=4,
         help="input batch size"
     )
     parser.add_argument(
@@ -405,7 +447,7 @@ if __name__ == "__main__":
         "--epoch",
         "-e",
         type=int,
-        default=120,
+        default=100,
         help="Number of epochs to train for",
     )
     parser.add_argument(
