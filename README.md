@@ -206,6 +206,10 @@ Custom model
 
 https://nvidia-isaac-ros.github.io/concepts/pose_estimation/dope/tutorial_custom_model.html
 
+palletjack sample
+
+https://github.com/NVIDIA-AI-IOT/synthetic_data_generation_training_workflow
+
 1. Train using conda environment inside dope_training dir
 ```bash
 torchrun --nproc_per_node=2 train.py --data /home/aist/Desktop/FES/conda/dope_ws/sdg_dope/cube_sdg/data_generated/yellow_sdg --object yellow --epochs 10
